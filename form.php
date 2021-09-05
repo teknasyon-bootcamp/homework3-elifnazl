@@ -24,3 +24,41 @@
  * 
  * > **Not: İsteyenler `app2.php` ve `form2.php` isminde dosyalar oluşturup sınıfa farklı özellikler kazandırabilir.
  */
+class Form
+{//sınıf özellikleri 
+ 
+  private string $action;
+  private string $method;
+  public $fields = array();
+
+  private function __construct(string $action,string $method){//action ve method değerleri atandı
+    $this->action = $action;
+    $this->method = $method;
+  }
+    
+   public static function createForm(string $action,string $method): Form{//dışardan gelen metoda göre nesne oluştur
+     return new static($action,$method);
+   }
+   public static function createGetForm(string $action): Form{
+     return new static($action,"GET");
+   }
+   public static function createPostForm(string $action): Form{
+      return new static($action,"POST");
+   }
+   public function addFields($fields) : void {
+            $this->fields[] = $fields;
+   }
+   public function setMethod(string $method): void{//method değişkeninin değeri değiştirildi
+     $this->method=$method;
+   }
+   public function render(): void{
+     echo "<form method = '". $this->method."' action = '". $this->action."'";
+      
+     foreach ($this->fields as $field) {
+       echo "<label for='".$field["name"]." '>".$field["label"]."</label>";
+       echo "<input type='text' name='".$field["name"]." ' value='".$field["defaultValue"]."'/>";
+     }
+        echo "<button type='submit'>Gönder</button>";
+        echo "</form>";
+    }
+}
