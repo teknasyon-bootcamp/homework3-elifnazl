@@ -29,7 +29,7 @@ class Form
  
   private string $action;
   private string $method;
-  public $fields = array();
+  public array $fields = array();
 
   private function __construct(string $action,string $method){//action ve method değerleri atandı
     $this->action = $action;
@@ -45,8 +45,11 @@ class Form
    public static function createPostForm(string $action): Form{
       return new static($action,"POST");
    }
-   public function addFields($fields) : void {
-            $this->fields[] = $fields;
+   public function addField(string $label, string $name, ?int $defaultValue = null) : void {
+    $this -> fields[] = array(
+     "label" = $label,
+     "name" = $name,
+     "defaultValue" = $defaultValue,);
    }
    public function setMethod(string $method): void{//method değişkeninin değeri değiştirildi
      $this->method=$method;
